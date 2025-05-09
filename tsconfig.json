@@ -6,13 +6,13 @@
     "module": "ESNext",
     "moduleDetection": "force",
     "jsx": "react-jsx",
-    "allowJs": true,
 
     // Bundler mode
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
-    "noEmit": true,
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationDir": "./dist",
 
     // Best practices
     "strict": true,

@@ -1,7 +1,9 @@
 {
   "name": "grammy-i18n-json",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "module": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/types.d.ts",
   "devDependencies": {
     "@types/fs-extra": "^11.0.4"
   },
@@ -12,5 +14,8 @@
   "dependencies": {
     "fs-extra": "^11.3.0",
     "grammy": "^1.36.1"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
