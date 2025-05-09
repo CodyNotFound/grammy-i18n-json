@@ -1,5 +1,6 @@
 {
   "name": "grammy-i18n-json",
+  "version": "1.0.0",
   "module": "src/index.ts",
   "devDependencies": {
     "@types/fs-extra": "^11.0.4"
