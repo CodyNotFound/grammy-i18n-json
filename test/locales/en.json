@@ -1,0 +1,7 @@
+{
+  "hello": "Hello",
+  "bye": "Goodbye",
+  "fallback": "This is fallback",
+  "onlyInEn": "Only in English",
+  "greet": "Hello, {name}!"
+}

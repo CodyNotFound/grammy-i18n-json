@@ -27,7 +27,14 @@ export class I18n<C extends Context = Context> {
     }
 
     translate(locale: string, key: string, variables?: Record<string, string>) {
-        const translation = this.translations.get(locale)?.get(key);
+        let messages = this.translations.get(locale);
+        if (!messages && locale !== this.config.defaultLocale) {
+            messages = this.translations.get(this.config.defaultLocale);
+        }
+        let translation = messages?.get(key);
+        if (!translation && locale !== this.config.defaultLocale) {
+            translation = this.translations.get(this.config.defaultLocale)?.get(key);
+        }
         if (!translation) {
             return key;
         }
@@ -82,11 +89,16 @@ export class I18n<C extends Context = Context> {
             });
 
             const boundTranslate = (key: string, variables?: Record<string, string>) => {
-                if (!currentMessages || !currentLocale) {
-                    console.warn('No locale set');
-                    return key;
+                let messages = currentMessages;
+                let usedLocale = currentLocale;
+                if (!messages && usedLocale !== this.config.defaultLocale) {
+                    messages = this.translations.get(this.config.defaultLocale);
+                    usedLocale = this.config.defaultLocale;
                 }
-                const translation = currentMessages.get(key);
+                let translation = messages?.get(key);
+                if (!translation && usedLocale !== this.config.defaultLocale) {
+                    translation = this.translations.get(this.config.defaultLocale)?.get(key);
+                }
                 if (!translation) return key;
                 return this.replaceVariables(translation, variables);
             };
