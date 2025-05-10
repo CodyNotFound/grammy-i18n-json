@@ -1,6 +1,6 @@
 {
   "name": "grammy-i18n-json",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "module": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

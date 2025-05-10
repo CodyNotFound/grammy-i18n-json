@@ -49,10 +49,8 @@ export const readLocalesDir = (dirPath: string) => {
                 walk(fullPath);
             } else if (entry.isFile() && extname(entry.name) === '.json') {
                 try {
-                    const excludeRoot = fullPath.replace(dirPath, '');
                     const contents = fs.readFileSync(fullPath, 'utf-8');
-                    const parts = excludeRoot.split(sep).filter(Boolean);
-                    const locale = parts[0]?.split('.')[0];
+                    const locale = path.basename(fullPath, '.json');
                     if (locale) {
                         let obj;
                         try {

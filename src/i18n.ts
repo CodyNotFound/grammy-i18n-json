@@ -15,7 +15,6 @@ export class I18n<C extends Context = Context> {
 
         if (config.directory) {
             const locales = readLocalesDir(config.directory);
-            console.log(locales);
             for (const locale of locales) {
                 const { langCode, source } = locale;
                 this.locales.push(langCode);
@@ -24,7 +23,7 @@ export class I18n<C extends Context = Context> {
             }
         }
 
-        console.log(this.locales, this.translations)
+        (this.locales, this.translations)
     }
 
     translate(locale: string, key: string, variables?: Record<string, string>) {
@@ -49,8 +48,10 @@ export class I18n<C extends Context = Context> {
 
             const useLocale = (locale: string) => {
                 if (!this.locales.includes(locale)) {
-                    throw new Error(`Locale ${locale} not found`);
+                    console.warn(`Locale ${locale} not found, fallback to ${this.config.defaultLocale}`);
+                    locale = this.config.defaultLocale;
                 }
+
                 currentLocale = locale;
                 currentMessages = this.translations.get(locale);
             };
@@ -82,7 +83,8 @@ export class I18n<C extends Context = Context> {
 
             const boundTranslate = (key: string, variables?: Record<string, string>) => {
                 if (!currentMessages || !currentLocale) {
-                    throw new Error('No locale set');
+                    console.warn('No locale set');
+                    return key;
                 }
                 const translation = currentMessages.get(key);
                 if (!translation) return key;
