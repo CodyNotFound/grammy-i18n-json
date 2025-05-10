@@ -21,6 +21,21 @@ function merge(target: any, source: any): any {
     return result;
 }
 
+function flattenObject(obj: Record<string, any>, prefix = ""): Record<string, string> {
+    let result: Record<string, string> = {};
+    for (const key in obj) {
+        if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
+        const value = obj[key];
+        const newKey = prefix ? `${prefix}.${key}` : key;
+        if (typeof value === "object" && value !== null) {
+            Object.assign(result, flattenObject(value, newKey));
+        } else {
+            result[newKey] = String(value);
+        }
+    }
+    return result;
+}
+
 export const readLocalesDir = (dirPath: string) => {
     const files: { langCode: string; source: any }[] = [];
     const locales = new Set<string>();
@@ -65,7 +80,7 @@ export const readLocalesDir = (dirPath: string) => {
         const merged = sameLocale.reduce((acc, cur) => merge(acc, cur.source), {});
         return {
             langCode,
-            source: merged,
+            source: flattenObject(merged),
         };
     });
 };

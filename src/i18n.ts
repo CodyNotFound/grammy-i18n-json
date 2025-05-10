@@ -1,4 +1,4 @@
-import { Context, type MiddlewareFn } from 'grammy';
+import type { Context, MiddlewareFn } from 'grammy';
 import type { I18nConfig, I18nFlavor } from './types';
 import { readLocalesDir } from './utils';
 
