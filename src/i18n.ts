@@ -24,7 +24,21 @@ export class I18n<C extends Context = Context> {
     }
   }
 
+  createTranslator() {
+    return (
+      locale: string,
+      key: string,
+      variables?: Record<string, string>
+    ) => {
+      return this.translate(locale, key, variables);
+    };
+  }
+
   translate(locale: string, key: string, variables?: Record<string, string>) {
+    if (!this.translations) {
+      console.warn("Translations not initialized, returning key");
+      return key;
+    }
     let messages = this.translations.get(locale);
     if (!messages && locale !== this.config.defaultLocale) {
       messages = this.translations.get(this.config.defaultLocale);
@@ -52,6 +66,12 @@ export class I18n<C extends Context = Context> {
       let currentMessages: Map<string, string> | undefined;
 
       const useLocale = (locale: string) => {
+        if (!this.translations) {
+          console.warn("Translations not initialized in useLocale");
+          currentLocale = locale;
+          currentMessages = undefined;
+          return;
+        }
         if (!this.locales.includes(locale)) {
           console.warn(
             `Locale ${locale} not found, fallback to ${this.config.defaultLocale}`
@@ -94,6 +114,12 @@ export class I18n<C extends Context = Context> {
         key: string,
         variables?: Record<string, string>
       ) => {
+        if (!this.translations) {
+          console.warn(
+            "Translations not initialized in boundTranslate, returning key"
+          );
+          return key;
+        }
         let messages = currentMessages;
         let usedLocale = currentLocale;
         if (!messages && usedLocale !== this.config.defaultLocale) {
@@ -121,6 +147,10 @@ export class I18n<C extends Context = Context> {
 
 export function hears(key: string) {
   return function <C extends Context & I18nFlavor>(ctx: C) {
+    if (!ctx.t) {
+      console.warn("Translation function not available in context");
+      return false;
+    }
     const expected = ctx.t(key);
     return ctx.hasText && ctx.hasText(expected);
   };

@@ -1,6 +1,6 @@
 {
   "name": "grammy-i18n-json",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "module": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,5 +17,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "scripts": {
+    "build": "tsc"
+  }
 }
